@@ -55,8 +55,6 @@ function burstAnimation() {
 // });
 
 // beats.start();
-
-
 function updateSphereWithAudioData(analyzer, sphere) {
     const dataArray = new Uint8Array(analyzer.frequencyBinCount);
     // console.log(dataArray);
