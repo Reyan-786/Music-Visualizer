@@ -1,8 +1,8 @@
 import * as THREE from './three/build/three.module.js';
 import { analyzer } from './music_player.js';
-import * as TONE from './tone/build/Tone.js';
+// import * as TONE from './tone/build/Tone.js';
 
-import {beat} from './tone/build/Tone.js';
+// import {beat} from './tone/build/Tone.js';
 
 const scene = new THREE.Scene();
 
@@ -59,12 +59,12 @@ function burstAnimation() {
 
 function updateSphereWithAudioData(analyzer, sphere) {
     const dataArray = new Uint8Array(analyzer.frequencyBinCount);
-    console.log(dataArray);
+    // console.log(dataArray);
     analyzer.getByteFrequencyData(dataArray);
 
     // Calculate the average amplitude from the frequency data
     const averageAmplitude = dataArray.reduce((acc, value) => acc + value, 0) / dataArray.length;
-    console.log(averageAmplitude);
+    // console.log(averageAmplitude);
     const scaleFactor = 1 + (averageAmplitude / 256)*0.5; // You may need to adjust this scale factor
     sphere.scale.set(scaleFactor, scaleFactor, scaleFactor);
 
@@ -80,7 +80,7 @@ function updateSphereWithAudioData(analyzer, sphere) {
 function animate() {
 
     requestAnimationFrame(animate);
-    console.log(`Rotation: X:${sphere.rotation.x}, Y:${sphere.rotation.y}, Z:${sphere.rotation.z}`);
+    // console.log(`Rotation: X:${sphere.rotation.x}, Y:${sphere.rotation.y}, Z:${sphere.rotation.z}`);
     if (analyzer) {
         updateSphereWithAudioData(analyzer, sphere);
     }
@@ -91,5 +91,39 @@ function animate() {
     sphere.rotation.y +=0.01;
     renderer.render(scene, camera);
 }
+const musicBox = document.querySelector('.music-box');
+const audioElement = document.getElementById('musicPlayer');
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+audioElement.addEventListener('canplay', () => {
+    audioContext.resume().then(() => {
+        audioElement.play();
+        updateBackgroundColor();
+    });
+});
+
+function updateBackgroundColor() {
+    // const analyzer = audioContext.createAnalyser();
+    // const source = audioContext.createMediaElementSource(audioElement);
+    // source.connect(analyzer);
+    // analyzer.connect(audioContext.destination);
+    // analyzer.fftSize = 256;
+    const dataArray = new Uint8Array(analyzer.frequencyBinCount);
+
+    function animateMusicBox() {
+        analyzer.getByteFrequencyData(dataArray);
+        const averageAmplitude = dataArray.reduce((acc, value) => acc + value, 0) / dataArray.length;
+        const red = averageAmplitude / 256;
+        const green = 1 - averageAmplitude / 256;
+        const blue = (averageAmplitude - red - green) / 256;
+
+        musicBox.style.backgroundColor = `rgb(${Math.round(red * 255)}, ${Math.round(green * 255)}, ${Math.round(blue * 255)})`;
+
+        requestAnimationFrame(animateMusicBox);
+    }
+
+    animateMusicBox();
+}
+
 
 animate();

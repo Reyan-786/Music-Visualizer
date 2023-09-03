@@ -31,3 +31,10 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+.music-box{
+    /* background-color: brown; */
+    border-radius: 40px;
+    border: 4px dotted white;
+    transition: background-color 0.1s ease;
+}
