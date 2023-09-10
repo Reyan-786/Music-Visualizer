@@ -1,0 +1,50 @@
+#usicViz { 
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: white;
+    text-align: center;
+    font-size: 80px;
+}
+body {
+    background-color: black;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    /* background: url("https://th.bing.com/th/id/OIP.Ooz4v8RmFOEOxiYCtCmppAHaE-?pid=ImgDet&rs=1"); */
+}
+
+#visualizer {
+    background-color: #333;
+    display: block;
+    margin: 20px auto;
+    border-radius: 8px;
+}
+
+
+input[type="file"],
+audio,
+button {
+    display: flex;
+    margin: 10px auto;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.music-box{
+    /* background-color: brown; */
+    border-radius: 40px;
+    border: 4px dotted white;
+    transition: background-color 0.01s ease;
+    width: 700px;
+    /* display:flex; */
+    justify-content: center;
+    align-items: center;
+}
